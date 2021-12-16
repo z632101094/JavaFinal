@@ -5,12 +5,12 @@ This homework is done with IntelliJ.
 My original plan: 
   Frontend: HTML,
   Loadbalancer: Nginx,
-  Backend: Java + Springboot
+  Backend: Java + Springboot,
   Database: Sqlite
   
 What I actually did:
   Frontend: HTMP + Vue.js
-  Backend: Java + Springboot + Hibernate
+  Backend: Java + Springboot + Hibernate,
   Database: MySQL
 
 To run this program, you should first install Mysql, then create the schema and table with the following sql command.
