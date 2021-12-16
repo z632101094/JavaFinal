@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<script src="library/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="library/vue-2.6.10/vue.js"></script>
+<link href="library/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="library/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<style>
+td#header{
+	font-size:150%;font-weight:700;
+	position: relative;
+	top: -10%;
+}
+td#submit{
+	position: relative;
+}
+td#register{
+	position: relative;
+	left: -29%;
+}
+table.loginTable{
+	position: absolute;
+	left: 40%;
+	top: 20%;
+	height: 200px;
+}
+div.loginErrorMessageDiv {
+	width: 600px;
+	margin: 0px auto;
+	height: 50px;
+	visibility: hidden;
+}
+</style>
+<script>
+$(function(){
+    var dataVue = {
+			uri: 'user/login',
+	        user:{username:'', password:''}
+        };
+    var vue = new Vue({
+	      el: '#div1',
+          data: dataVue,
+	      methods:{
+	          login:function(){ 
+                  if(0==this.user.username.length){
+                      $("span.errorMessage").html("Please Enter Username");
+                      $("div.loginErrorMessageDiv").css("visibility","visible");
+                      return;
+                  }
+                  if(0==this.user.password.length){
+                      $("span.errorMessage").html("Please Enter Password");
+                      $("div.loginErrorMessageDiv").css("visibility","visible");
+                      return;
+                  }
+	        	  axios.post(this.uri,this.user).then(function(response) {
+                      var result = response.data;
+                      if(result.code==0){
+                          location.href="home.html";
+                      }
+                      else{
+                          $("span.errorMessage").html(result.message);
+                          $("div.loginErrorMessageDiv").css("visibility","visible");
+                      }
+                  });
+	          }
+	      }
+	    })
+})
+</script>
+<html>
+<body>
+<div id="div1">
+        <div class="loginErrorMessageDiv">
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+                <span class="errorMessage"></span>
+            </div>
+        </div>
+	<table class="loginTable" align="center">
+	    <tr>
+	        <td height = "50px" id = "header" align="center">Sign-in</td>
+	    </tr>
+	    <tr>
+	        <td height = "50px"><input class="form-control" v-model="user.username" placeholder="Username"> </td>
+	    </tr>
+	    <tr>
+	        <td height = "50px"><input class="form-control" v-model="user.password"  type="password"  placeholder="Password" > </td>
+	    </tr>
+	    <tr>
+	        <td id = "submit" height = "50px" align="left">
+	            <a ><button @click="login" class="btn btn-primary">Sign-in</button></a>
+	        </td>
+	        <td id = "register" height = "50px" align="right">
+	            <a href = "register.html"><button class="btn btn-success">Register</button></a>
+	        </td>	        
+	    </tr>
+	</table>
+</div> 
+</body>
+</html>

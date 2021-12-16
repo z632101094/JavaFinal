@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<script src="library/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="library/vue-2.6.10/vue.js"></script>
+<link href="library/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="library/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<html>
+  <head>
+    <title>My first Vue app</title>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+      <div class="loginErrorMessageDiv">
+          <div class="alert alert-danger" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+              <span class="errorMessage"></span>
+          </div>
+      </div>
+    <div id="app">
+        <p>
+            name: <input v-model="calendar.name">
+        </p>
+        <p>
+            Password: <input v-model="calendar.password">
+        </p>
+        <p>
+            {{ message1 }}
+            <button v-on:click="schedule(message1)">Schedule</button>
+            <button v-on:click="unschedule(message1)">Unschedule</button>
+            <span class="schedule1"></span>
+        </p>
+        <p>
+            {{ message2 }}
+            <button v-on:click="schedule(message2)">Schedule</button>
+            <button v-on:click="unschedule(message2)">Unschedule</button>
+            <span class="schedule2"></span>
+        </p>
+        <p>
+            {{ message3 }}
+            <button v-on:click="schedule(message3)">Schedule</button>
+            <button v-on:click="unschedule(message3)">Unschedule</button>
+            <span class="schedule3"></span>
+        </p>
+        <p>
+            {{result}}
+        </p>
+
+      <button v-on:click="refresh">Refresh</button>
+
+    </div>
+
+
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+            message1: "Click Refresh",
+            message2: "Click Refresh",
+            message3: "Click Refresh",
+            calendar:{name:'', password:'', date:''}
+        },
+        methods: {
+            schedule:function(day){
+                this.calendar.date = day
+                if(0===this.calendar.name.length){
+                    $("span.errorMessage").html("Please Enter name");
+                    $("div.registerErrorMessageDiv").css("visibility","visible");
+                    return;
+                }
+                if(0===this.calendar.password.length){
+                    $("span.errorMessage").html("Please Enter Password");
+                    $("div.registerErrorMessageDiv").css("visibility","visible");
+                    return;
+                }
+                axios.post('calendar/schedule',this.calendar).then(function(response) {
+                    var result = response.data;
+                    if(result.code===0){
+                        $("span.errorMessage").html(result.message);
+                        $("div.registerErrorMessageDiv").css("visibility","visible");
+                    }
+                    else{
+                        $("span.errorMessage").html(result.message);
+                        $("div.registerErrorMessageDiv").css("visibility","visible");
+                    }
+                });
+            },
+            unschedule:function(day){
+                this.calendar.date = day
+                if(0===this.calendar.name.length){
+                    $("span.errorMessage").html("Please Enter name");
+                    $("div.registerErrorMessageDiv").css("visibility","visible");
+                    return;
+                }
+                if(0===this.calendar.password.length){
+                    $("span.errorMessage").html("Please Enter Password");
+                    $("div.registerErrorMessageDiv").css("visibility","visible");
+                    return;
+                }
+                axios.post('calendar/unschedule',this.calendar).then(function(response) {
+                    var result = response.data;
+                    if(result.code===0){
+                        $("span.errorMessage").html(result.message);
+                        $("div.registerErrorMessageDiv").css("visibility","visible");
+                    }
+                    else{
+                        $("span.errorMessage").html(result.message);
+                        $("div.registerErrorMessageDiv").css("visibility","visible");
+                    }
+                });
+            },
+            refresh:function(){
+                this.message1 = getDay(1);
+                this.message2 = getDay(2);
+                this.message3 = getDay(3);
+                $("span.schedule1").html("");
+                $("span.schedule2").html("");
+                $("span.schedule3").html("");
+                axios.get('calendar/getSchedule').then(function(response) {
+                    var result = response.data;
+                    if(result.code===0){
+                        $("span.errorMessage").html(result.message);
+                        $("div.registerErrorMessageDiv").css("visibility","visible");
+                    }
+                    else{
+                        $("span.errorMessage").html(result.message);
+                        $("div.registerErrorMessageDiv").css("visibility","visible");
+                    }
+                    var arr = result.data;
+                    for (var i = 0; i < arr.length; i++){
+
+                        var obj = arr[i];
+                        var dateValue = obj['date'];
+                        dateValue = dateValue.substring(0,10)
+                        if (dateValue === getDay(1)) {
+                            $("span.schedule1").html("scheduled by " + obj['name']);
+                        }
+                        if (dateValue === getDay(2)) {
+                            $("span.schedule2").html("scheduled by " + obj['name']);
+                        }
+                        if (dateValue === getDay(3)) {
+                            $("span.schedule3").html("scheduled by " + obj['name']);
+                        }
+                    }
+
+                });
+            }
+      }});
+    </script>
+
+    <script type="text/javascript">
+    function getDay(day){
+        var today = new Date();
+        var targetday_milliseconds=today.getTime() + 1000*60*60*24*day;
+        today.setTime(targetday_milliseconds);
+
+        var tDate = today.getFullYear()+"-"+today.getMonth()+ "-" +today.getDate();
+        return tDate;
+    }
+    </script>
+      <script type="text/javascript">
+          function showSchedule(i, day){
+                if (i === 1) {
+
+                }
+          }
+      </script>
+  </body>
+</html>
