@@ -9,7 +9,7 @@ My original plan:
   Database: Sqlite
   
 What I actually did:
-  Frontend: HTMP + Vue.js
+  Frontend: HTMP + Vue.js,
   Backend: Java + Springboot + Hibernate,
   Database: MySQL
 
