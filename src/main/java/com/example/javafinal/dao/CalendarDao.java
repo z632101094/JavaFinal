@@ -1,7 +1,6 @@
 package com.example.javafinal.dao;
 
 import com.example.javafinal.bean.CalendarEntity;
-import com.example.javafinal.bean.UserEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

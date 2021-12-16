@@ -2,7 +2,6 @@ package com.example.javafinal.service;
 
 import com.example.javafinal.bean.CalendarEntity;
 import com.example.javafinal.dao.CalendarDao;
-import com.example.javafinal.dao.UserDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

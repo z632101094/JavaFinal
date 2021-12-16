@@ -14,9 +14,6 @@
     <property name="show_sql">true</property>
     <property name="hbm2ddl.auto">update</property>
 
-
-    <mapping class="com.example.javafinal.bean.UserEntity"/>
-    <mapping resource="UserEntityhbm.xml"/>
     <mapping class="com.example.javafinal.bean.CalendarEntity"/>
     <mapping resource="CalendarEntityhbm.xml"/>
     <!-- DB schema will be updated if needed -->
